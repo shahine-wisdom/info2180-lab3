@@ -13,12 +13,19 @@ document.addEventListener("DOMContentLoaded", function() {
     const status = document.querySelector("#status");
     const newGame = document.querySelector(".btn");
     let firstPlayer = "X";
+    let gameOver = false;
     const sq = document.querySelectorAll("#board div");
 
     sq.forEach(function(square) {
         square.classList.add("square");
 
         square.addEventListener("click", function() {
+            if (gameOver){
+                return;
+            }
+             if (square.textContent !== ""){
+                return;
+        }
             square.textContent = firstPlayer;
             square.classList.add(firstPlayer);
 
@@ -30,6 +37,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     sq[a].textContent === sq[b].textContent &&
                     sq[b].textContent === sq[c].textContent
                 ) {
+                    gameOver = true;
+
                     status.textContent =
                         "Congratulations! " + firstPlayer + " is the Winner!";
 
@@ -41,8 +50,9 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Exercise 5: Restart the game
+    //  Restart the game
     newGame.addEventListener("click", function() {
+       
         sq.forEach(function(square) {
             square.textContent = "";
             square.classList.remove("X", "O");
@@ -54,6 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
         status.classList.remove("you-won");
 
         firstPlayer = "X";
+        gameOver = false;
     });
 });
 
